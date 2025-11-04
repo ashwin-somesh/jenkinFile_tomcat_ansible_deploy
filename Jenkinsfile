@@ -2,7 +2,7 @@ pipeline {
   agent any
 
  environment {
-    HOME = "/home/ubuntu"
+    
     JFROG_URL   = "https://trialgoo9qc.jfrog.io/artifactory"
     JFROG_REPO  = "example-repo-local-generic-local"
     WAR_NAME    = "sample.war"
