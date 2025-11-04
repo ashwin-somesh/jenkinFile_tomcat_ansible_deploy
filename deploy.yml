@@ -1,0 +1,27 @@
+- hosts: webservers
+  become: yes
+  vars:
+    tomcat_dir: /opt/tomcat
+    app_name: sample
+
+  tasks:
+    - name: Stop Tomcat
+      command: "{{ tomcat_dir }}/bin/shutdown.sh || true"
+
+    - name: Remove old WAR
+      file:
+        path: "{{ tomcat_dir }}/webapps/{{ app_name }}.war"
+        state: absent
+
+    - name: Remove extracted old folder
+      file:
+        path: "{{ tomcat_dir }}/webapps/{{ app_name }}"
+        state: absent
+
+    - name: Copy WAR to Tomcat webapps folder
+      copy:
+        src: sample.war
+        dest: "{{ tomcat_dir }}/webapps/{{ app_name }}.war"
+
+    - name: Start Tomcat
+      command: "{{ tomcat_dir }}/bin/startup.sh"
